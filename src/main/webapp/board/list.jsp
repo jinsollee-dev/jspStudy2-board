@@ -28,10 +28,17 @@
         <tr>
             <td align="center">
                 <select name = "searchField">
-                    <option value="title">제목</option>
+                    <%
+                        if("content".equals(searchField)){
+                    %>
+                    <option value="title" >제목</option>
+                    <option value = "content" selected>내용</option>
+                    <%} else {%>
+                    <option value="title" selected>제목</option>
                     <option value = "content">내용</option>
+                    <%}%>
                 </select>
-                <input type="text" name="searchWord">
+                <input type="text" name="searchWord" value="<%=searchWord%>">
                 <input type ="submit" name="검색">
             </td>
         </tr>
