@@ -22,7 +22,9 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="../common/link.jsp"/>
 <h2>게시글 목록보기</h2>
+<h4>게시글 수 : <%=totalCount%></h4>
 <form method="get">
     <table>
         <tr>
