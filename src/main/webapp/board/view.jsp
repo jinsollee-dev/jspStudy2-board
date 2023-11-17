@@ -26,7 +26,7 @@
 <jsp:include page="../common/link.jsp"/>
 <h2>회원제 게시판 상세보기</h2>
 <form name="viewFrm">
-    <input type="hidden" name ="num " value="<%=num%>">
+    <input type="hidden" name ="num" value="<%=num%>">
     <table>
         <tr>
             <td>번호</td>

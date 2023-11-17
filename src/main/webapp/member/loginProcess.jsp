@@ -15,7 +15,7 @@
         response.sendRedirect("../board/list.jsp");
     } else {
         request.setAttribute("loginErrMsg", "로그인 오류입니다.");
-        request.getRequestDispatcher("loginForm.jsp")
+        request.getRequestDispatcher("../board/pagingList.jsp")
                 .forward(request, response);
     }
 
