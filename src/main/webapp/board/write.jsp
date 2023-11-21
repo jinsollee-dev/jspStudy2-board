@@ -22,7 +22,7 @@
 <body>
 <jsp:include page="../common/link.jsp"/>
 <h2>게시글 등록 폼</h2>
-<form name="writeFrm" method="post" action="pagingWriteProcess.jsp"
+<form name="writeFrm" method="post" action="/board/write.do"
     onsubmit = "return validateForm(this)">
     <table>
         <tr>

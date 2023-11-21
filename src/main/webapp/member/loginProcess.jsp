@@ -12,10 +12,10 @@
     if(memberDTO.getId() !=null){
         session.setAttribute("userId",memberDTO.getId());
         session.setAttribute("userName", memberDTO.getName());
-        response.sendRedirect("../board/list.jsp");
+        response.sendRedirect("../board/list.do");
     } else {
         request.setAttribute("loginErrMsg", "로그인 오류입니다.");
-        request.getRequestDispatcher("../board/pagingList.jsp")
+        request.getRequestDispatcher("loginForm.jsp")
                 .forward(request, response);
     }
 

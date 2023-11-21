@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BoardDAO extends OracleJDBCConnect {
+public class BoardDAO extends JDBCConnect {
 
     public BoardDAO(){
         super();
@@ -37,22 +37,29 @@ public class BoardDAO extends OracleJDBCConnect {
 
     public  List<BoardDTO> selectPagingList(Map<String, Object> map){
         List<BoardDTO> bbs = new ArrayList<BoardDTO>();
-        //String query = "select * from board";
-        String query = "select * from("
-                +" select Tb.*, rownum rNum from("
-                +" select * from board";
+
+        String query = "select * from board"; //Mysql 형식
+
+        //oracle 형식
+//        String query = "select * from("
+//                +" select Tb.*, rownum rNum from("
+//                +" select * from board";
 
         if(map.get("searchWord")!=null){
             query+=" where "+map.get("searchField")
                     +" like '%"+map.get("searchWord")+"%'";
         }
-        query+=" order by num desc) Tb ) "
-                +" where rNum between ? and ?";
-//        query+=" order by num desc limit ?, ?";
+        //oracle 형식
+//        query+=" order by num desc) Tb ) "
+//                +" where rNum between ? and ?";
+
+       query+=" order by num desc limit ?, ?"; //Mysql 형식
+
         try{
             pstmt=conn.prepareStatement(query);
             pstmt.setInt(1,Integer.parseInt(map.get("start").toString()));
-            pstmt.setInt(2, Integer.parseInt(map.get("end").toString()));
+            pstmt.setInt(2, Integer.parseInt(map.get("pageSize").toString()));
+                                                                //oracle에서는 end로 넣어주기
             rs=pstmt.executeQuery();
             while(rs.next()){
                 BoardDTO dto = new BoardDTO();
@@ -100,29 +107,26 @@ public class BoardDAO extends OracleJDBCConnect {
     }
     public int insertWrite(BoardDTO dto){
         int iResult =-1;
-        String sql1 = "select seq_board_num.nextval from dual";
-        String sql = "insert into board(id, title, content,num) values(?,?,?,?)";
-        try{
-            int num = -1;
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql1);
-            if(rs.next()){
-                num=rs.getInt(1);
-
-            }
+        //String sql1 = "select seq_board_num.nextval from dual"; //oracle 부분
+        //String sql = "insert into board(id, title, content,num) values(?,?,?,?)";//oracle 부분
+        String sql = "insert into board(id, title, content) values(?,?,?)";
+        try{   //oracle에서는 sql1 으로 넣어주기
+//            int num = -1;
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery(sql1);
+//            if(rs.next()){
+//                num=rs.getInt(1);}
             pstmt=conn.prepareStatement(sql);
             pstmt.setString(1,dto.getId());
             pstmt.setString(2, dto.getTitle());
             pstmt.setString(3, dto.getContent());
-            pstmt.setInt(4,num);
+            //pstmt.setInt(4,num); oracle부분
             iResult=pstmt.executeUpdate();
 
         } catch (Exception ex){
             ex.printStackTrace();
         }
-
         return iResult;
-
     }
 
     public void updateVisitCount(int num){
