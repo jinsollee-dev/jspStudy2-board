@@ -8,25 +8,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-@WebServlet("/upload/fileUpload.do")
+@WebServlet("/upload/multiUpload.do")
 @MultipartConfig(
         maxFileSize = 1024*1204*1,
         maxRequestSize = 1024*1024*5
 )
-public class FileUploadController extends HttpServlet {
+public class multiUploadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       req.getRequestDispatcher("/ch13/fileUploadForm.jsp").forward(req,resp);
+       req.getRequestDispatcher("/ch13/multiUploadForm.jsp").forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             String saveDirectory=getServletContext().getRealPath("/uploads");
-            //현재 uploads라는 곳이 realpath가 된다는 의미
+            ArrayList<String> listFileName=FileUtile.multipleFile(req, saveDirectory);
+
+
             String originalFileName=FileUtile.uploadFile(req,saveDirectory);
-            //FileUtile : 파일 업로드, 다운로드 등의 처리를 할 클래스 - orinalfileName->ofile, savedFineName->sfile
+
             String savedFileName =FileUtile.renameFile(saveDirectory, originalFileName);
             insertMyFile(req,originalFileName,savedFileName);
             resp.sendRedirect("/upload/fileList.do");
