@@ -23,7 +23,7 @@
 <h2>다중 파일 업로드</h2>
 <span style="color : red;"> ${errorMessage}</span>
 <form name="fileForm" method="post" enctype="multipart/form-data"
-      action="/upload/multiupload.do" onsubmit="return validateForm(this);">
+      action="/upload/multiUpload.do" onsubmit="return validateForm(this);">
     제목 : <input type="text" name="title"><br/>
     카테고리(선택사항) :
     <input type="checkbox" name="cate" value="사진" checked>사진

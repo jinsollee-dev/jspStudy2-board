@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet("/upload/fileUpload.do")
 @MultipartConfig(
-        maxFileSize = 1024*1204*1,
+        maxFileSize = 1024*1024*1,
         maxRequestSize = 1024*1024*5
 )
 public class FileUploadController extends HttpServlet {

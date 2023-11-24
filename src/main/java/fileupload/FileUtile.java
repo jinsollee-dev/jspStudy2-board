@@ -8,6 +8,7 @@ import jakarta.servlet.http.Part;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 public class FileUtile {
@@ -82,8 +83,23 @@ public class FileUtile {
     }
 
 
-    public static ArrayList<String> multipleFile(HttpServletRequest req, String saveDirectory) {
+    public static ArrayList<String> multipleFile(HttpServletRequest req, String saveDirectory)
+    throws ServletException,IOException {
         ArrayList<String> listFileName=new ArrayList<String>();
+        Collection<Part> parts=req.getParts();
+        for(Part part : parts){
+            if(!part.getName().equals("ofile")){
+                continue;
+            }
+            String partHeader=part.getHeader("content-disposition");
+            System.out.println("partHeader="+partHeader);
+            String[] phArr=partHeader.split("filename=");
+            String originalFileName=phArr[1].trim().replace("\"", "");
+            if(!originalFileName.isEmpty()){
+                part.write(saveDirectory+File.separator+originalFileName);
+            }
+            listFileName.add(originalFileName);
+        }
         return listFileName;
     }
 }
